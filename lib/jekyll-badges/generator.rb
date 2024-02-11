@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'badge.rb'
+
 module JekyllBadges
   class Generator < Jekyll::Generator
     priority :lowest
@@ -7,12 +9,11 @@ module JekyllBadges
     # Main plugin action, called by Jekyll-core
     def generate(site)
       badges_data = site.data['badges']
-      puts badges_data.inspect
+      badges_data.each do |badge_data|
+        badge = Badge.new(**(badge_data.transform_keys(&:to_sym)))
+        puts badge.inspect
+      end
       # TODO
-    end
-
-    private
-    # TODO
-
+    end # def generate
   end # class Generator
 end # module JekyllBadges
