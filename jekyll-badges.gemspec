@@ -14,11 +14,11 @@ Gem::Specification.new do |s|
   s.files           = Dir["lib/**/*"]
   s.require_paths   = ["lib"]
 
-  s.required_ruby_version = ">= 3.0.0"
+  s.required_ruby_version = ">= 3.2"
 
   s.add_dependency "jekyll", ">= 3.7", "< 5.0"
-  s.add_dependency "rbs"
+  s.add_dependency "rbs", "~> 3.2"
 
-  s.add_development_dependency "bundler"
+  s.add_development_dependency "bundler", "~> 2.4"
   s.add_development_dependency "rake", "~> 13.0"
 end
