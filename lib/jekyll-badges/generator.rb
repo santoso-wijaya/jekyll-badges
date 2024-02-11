@@ -22,9 +22,10 @@ module JekyllBadges
       .sort
       .reverse
 
-      puts badges.inspect # debug print TODO: remove
-
       # get the template
+      badges_template_partial = File.read(badges_template)
+      badges_template_parsed = Liquid::Template.parse(badges_template_partial)
+      puts badges_template_parsed.inspect
 
     end # def generate
 
@@ -38,7 +39,7 @@ module JekyllBadges
     end
 
     def disabled_in_development?
-      config && ["disable_in_development"] && Jekyll.env == "development"
+      config && config["disable_in_development"] && Jekyll.env == "development"
     end
 
     def normalize_badge_params(badge_data)
@@ -52,6 +53,10 @@ module JekyllBadges
       badge_data['granted'] = Date.parse(badge_data['granted'])
 
       return badge_data.transform_keys(&:to_sym)
+    end
+
+    def badges_template
+      return @site.in_source_dir(config['template'])
     end
 
   end # class Generator
