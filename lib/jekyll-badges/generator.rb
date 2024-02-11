@@ -18,7 +18,7 @@ module JekyllBadges
 
       badges = site.data['badges'].map { |badge_data| 
         Badge.new(**normalize_badge_params(badge_data))
-      }.filter { |badge| badge.show & (badge.granted <= TODAY) }
+      }.filter { |badge| badge.show && (badge.granted <= TODAY) }
       .sort
       .reverse
 
@@ -38,7 +38,7 @@ module JekyllBadges
     end
 
     def disabled_in_development?
-      config && config["disable_in_development"] && Jekyll.env == "development"
+      config && ["disable_in_development"] && Jekyll.env == "development"
     end
 
     def normalize_badge_params(badge_data)
