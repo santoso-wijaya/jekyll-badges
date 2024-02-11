@@ -7,20 +7,39 @@ module JekyllBadges
   class Generator < Jekyll::Generator
     priority :lowest
 
-    @@today = Date.today
-
     # Main plugin action, called by Jekyll-core
     def generate(site)
+      @site = site
+
+      if disabled_in_development?
+        Jekyll.logger.info "Jekyll Badges:", "Skipping badges generation in development"
+        return
+      end
+
       badges = site.data['badges'].map { |badge_data| 
         Badge.new(**normalize_badge_params(badge_data))
-      }.filter { |badge| badge.show & (badge.granted <= @@today) }
+      }.filter { |badge| badge.show & (badge.granted <= TODAY) }
       .sort
       .reverse
 
-      puts badges.inspect
+      puts badges.inspect # debug print TODO: remove
+
+      # get the template
+
     end # def generate
 
     private
+
+    TODAY = Date.today
+
+    # Returns the plugin's config or an empty hash if not set
+    def config
+      @config ||= @site.config["badges"] || {}
+    end
+
+    def disabled_in_development?
+      config && config["disable_in_development"] && Jekyll.env == "development"
+    end
 
     def normalize_badge_params(badge_data)
       # Make sure all fields are there; or else provide default values
