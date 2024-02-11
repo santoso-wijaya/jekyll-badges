@@ -7,13 +7,17 @@ module JekyllBadges
   class Generator < Jekyll::Generator
     priority :lowest
 
+    @@today = Date.today
+
     # Main plugin action, called by Jekyll-core
     def generate(site)
-      badges_data = site.data['badges']
-      badges_data.each do |badge_data|
-        badge = Badge.new(**normalize_badge_params(badge_data))
-        puts badge.inspect
-      end
+      badges = site.data['badges'].map { |badge_data| 
+        Badge.new(**normalize_badge_params(badge_data))
+      }.filter { |badge| badge.show & (badge.granted <= @@today) }
+      .sort
+      .reverse
+
+      puts badges.inspect
     end # def generate
 
     private
