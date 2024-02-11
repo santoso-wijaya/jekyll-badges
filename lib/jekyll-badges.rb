@@ -3,5 +3,5 @@ require "fileutils"
 require "jekyll-badges/generator"
 
 module JekyllBadges
-  # TODO
+  # TODO: Do we need to autoload anything?
 end
