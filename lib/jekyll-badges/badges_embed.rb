@@ -1,19 +1,26 @@
 # frozen_string_literal: true
 
 require 'date'
+require 'jekyll'
+
 require_relative 'badge.rb'
 
 module JekyllBadges
-  class Generator < Jekyll::Generator
-    priority :lowest
+  # See: https://jekyllrb.com/docs/plugins/tags/
+  class BadgesEmbed < Liquid::Tag
 
-    # Main plugin action, called by Jekyll-core
-    def generate(site)
-      @site = site
+    def initialize(tag_name, content, tokens)
+      super
+      @content = content # TODO: add options handling here
+    end
+
+    # See: https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers#rendering
+    def render(context)
+      @context = context
 
       if disabled_in_development?
         Jekyll.logger.info "Jekyll Badges:", "Skipping badges generation in development"
-        return
+        return ""
       end
 
       badges = site.data['badges'].map { |badge_data| 
@@ -22,20 +29,31 @@ module JekyllBadges
       .sort
       .reverse
 
+      puts badges.inspect # TODO: debug only; remove
+
       # get the template
       badges_template_partial = File.read(badges_template)
       badges_template_parsed = Liquid::Template.parse(badges_template_partial)
-      puts badges_template_parsed.inspect
 
+      puts badges_template_parsed.inspect # TODO: debug only; remove
+      
+      return badges_template_parsed.render(context)
     end # def generate
+
+    # See: https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers#create-your-own-tags
+    Liquid::Template.register_tag "badges", self
 
     private
 
     TODAY = Date.today
 
+    def site
+      @site ||= @context.registers[:site]
+    end
+
     # Returns the plugin's config or an empty hash if not set
     def config
-      @config ||= @site.config["badges"] || {}
+      @config ||= site.config["badges"] || {}
     end
 
     def disabled_in_development?
@@ -56,8 +74,8 @@ module JekyllBadges
     end
 
     def badges_template
-      return @site.in_source_dir(config['template'])
+      return site.in_source_dir(config['template'])
     end
 
-  end # class Generator
+  end # class BadgesEmbed
 end # module JekyllBadges
