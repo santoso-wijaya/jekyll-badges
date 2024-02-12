@@ -23,9 +23,12 @@ module JekyllBadges
         return ""
       end
 
+      # TODO: Make sure badge IDs are all unique.
       badges = site.data['badges'].map { |badge_data| 
         Badge.new(**normalize_badge_params(badge_data))
-      }.filter { |badge| badge.show && (badge.granted <= TODAY) }
+      }.filter { |badge|
+        badge.show and (not badge.granted.nil?) and (badge.granted <= TODAY)
+      }
       .sort
       .reverse
 
@@ -38,7 +41,7 @@ module JekyllBadges
       puts badges_template_parsed.inspect # TODO: debug only; remove
       
       return badges_template_parsed.render(context)
-    end # def generate
+    end
 
     # See: https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers#create-your-own-tags
     Liquid::Template.register_tag "badges", self
@@ -56,25 +59,22 @@ module JekyllBadges
       @config ||= site.config["badges"] || {}
     end
 
+    def badges_template
+      return site.in_source_dir(config['template'])
+    end
+
     def disabled_in_development?
       config && config["disable_in_development"] && Jekyll.env == "development"
     end
 
     def normalize_badge_params(badge_data)
-      # Make sure all fields are there; or else provide default values
-      # TODO
-
       # Make sure `badge_data['image_url']` is valid and the asset exists
       # TODO
 
-      badge_data['created'] = Date.parse(badge_data['created'])
-      badge_data['granted'] = Date.parse(badge_data['granted'])
+      badge_data['created'] = Date.parse(badge_data['created']) unless badge_data['created'].nil?
+      badge_data['granted'] = Date.parse(badge_data['granted']) unless badge_data['granted'].nil?
 
       return badge_data.transform_keys(&:to_sym)
-    end
-
-    def badges_template
-      return site.in_source_dir(config['template'])
     end
 
   end # class BadgesEmbed
