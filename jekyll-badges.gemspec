@@ -2,23 +2,24 @@
 
 require_relative "lib/jekyll-badges/version"
 
-Gem::Specification.new do |s|
-  s.name            = "jekyll-badges"
-  s.version         = Jekyll::Badges::VERSION
-  s.authors         = ["Santoso Wijaya"]
-  s.email           = ["code@swijaya.com"]
-  s.summary         = "A plugin to generate a showcase collection of custom badges."
-  s.homepage        = "https://github.com/santoso-wijaya/jekyll-badges"
-  s.license         = "MIT"
+Gem::Specification.new do |spec|
+  spec.name            = "jekyll-badges"
+  spec.version         = Jekyll::Badges::VERSION
+  spec.authors         = ["Santoso Wijaya"]
+  spec.email           = ["code@swijaya.com"]
 
-  s.files           = Dir["lib/**/*"]
-  s.require_paths   = ["lib"]
+  spec.summary         = "A plugin to generate a showcase collection of custom badgespec."
+  spec.description     = "A plugin to generate a showcase collection of custom badgespec."
+  spec.homepage        = "https://github.com/santoso-wijaya/jekyll-badges"
+  spec.license         = "MIT"
 
-  s.required_ruby_version = ">= 3.2"
+  spec.files           = Dir["lib/**/*"]
+  spec.require_paths   = ["lib"]
 
-  s.add_dependency "jekyll", ">= 3.7", "< 5.0"
-  s.add_dependency "rbs", "~> 3.2"
+  spec.required_ruby_version = ">= 3.2"
 
-  s.add_development_dependency "bundler", "~> 2.4"
-  s.add_development_dependency "rake", "~> 13.0"
+  spec.add_dependency "jekyll", ">= 3.7", "< 5.0"
+
+  spec.add_development_dependency "bundler", "~> 2.4"
+  spec.add_development_dependency "rake", "~> 13.0"
 end
