@@ -8,12 +8,19 @@ Gem::Specification.new do |spec|
   spec.authors         = ["Santoso Wijaya"]
   spec.email           = ["code@swijaya.com"]
 
-  spec.summary         = "A plugin to generate a showcase collection of custom badgespec."
-  spec.description     = "A plugin to generate a showcase collection of custom badgespec."
+  spec.summary         = %q{
+    A Jekyll plugin to generate and showcase a collection of custom badges
+  }
+  spec.description     = %q{
+    A Jekyll plugin to generate and showcase a collection of custom badges.
+    Provides a Liquid tag for loading configured badges and generating an HTML
+    embed for rendering.
+  }
   spec.homepage        = "https://github.com/santoso-wijaya/jekyll-badges"
   spec.license         = "MIT"
 
   spec.files           = Dir["lib/**/*"]
+  spec.executables     = []
   spec.require_paths   = ["lib"]
 
   spec.required_ruby_version = ">= 3.2"
