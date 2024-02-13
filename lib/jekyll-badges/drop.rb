@@ -10,8 +10,7 @@ module Jekyll
       end
 
       def visible_badges
-        @badges.filter { |badge| badge.show }
-               .map { |badge| badge.to_h { |name, val| [name.to_s, val] } }
+        @badges.filter { |badge| badge.show }.map(&:to_h)
       end
 
     end

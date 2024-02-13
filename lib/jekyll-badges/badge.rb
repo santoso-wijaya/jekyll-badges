@@ -38,6 +38,10 @@ module Jekyll
       end
 
       include Comparable
+
+      def to_h
+        super.to_h { |name, val| [name.to_s, val] }
+      end
     end
 
   end
