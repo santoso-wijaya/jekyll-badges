@@ -34,7 +34,7 @@ module Jekyll
 
       def <=>(other)
         return unless other.is_a?(self.class)
-        granted <=> other.granted
+        created <=> other.created
       end
 
       include Comparable

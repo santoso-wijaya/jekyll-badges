@@ -1,4 +1,5 @@
 require_relative 'badge.rb'
+require_relative 'drop.rb'
 
 module Jekyll
   module Badges
@@ -14,22 +15,20 @@ module Jekyll
           return ""
         end
 
-        # TODO: Make sure badge IDs are all unique.
-        badges = @site.data['badges'].map { |badge_data| 
+        @badges = @site.data['badges'].map { |badge_data| 
           Badge.new(**normalize_badge_params(badge_data))
-        }.filter { |badge|
-          badge.show and (not badge.granted.nil?) and (badge.granted <= TODAY)
         }
-        .sort
-        .reverse
-
-        puts badges.inspect # TODO: debug only; remove
 
         # get the template and render it 
+        assigns = {
+          # Using a Liquid::Drop to organize and query our badges just-in-time.
+          # See: https://www.rubydoc.info/gems/liquid/Liquid/Drop
+          'badges' => BadgesDrop.new(@badges)
+        }
         info = {
           registers: { site: @site }
         }
-        badges_template.render!(@site.site_payload, info)
+        badges_template.render(assigns, @site.site_payload, info)
       end
 
       private
