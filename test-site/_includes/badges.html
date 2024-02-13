@@ -1,0 +1,11 @@
+{% unless badges.visible_badges.size > 0 %}
+  <div class="no-badges"></div>
+{% else %}
+  <div class="badges">
+    <ul>
+    {% for badge in badges.visible_badges %}
+      <li>{{ badge.id }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+{% endunless %}

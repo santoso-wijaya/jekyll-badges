@@ -15,9 +15,9 @@ module Jekyll
           return ""
         end
 
-        @badges = @site.data['badges'].map { |badge_data| 
+        @badges = @site.data['badges']&.map { |badge_data| 
           Badge.new(**normalize_badge_params(badge_data))
-        }
+        } || []
 
         # get the template and render it 
         assigns = {
