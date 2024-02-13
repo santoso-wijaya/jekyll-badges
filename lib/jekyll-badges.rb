@@ -1,7 +1,7 @@
-require "jekyll"
-require "fileutils"
-require "jekyll-badges/badges_embed"
+require 'jekyll'
 
-module JekyllBadges
-  # TODO: Do we need to autoload anything?
-end
+require 'jekyll-badges/tag'
+
+
+# See: https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers#create-your-own-tags
+Liquid::Template.register_tag('badges', Jekyll::Badges::Tag)
