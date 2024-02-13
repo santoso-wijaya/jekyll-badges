@@ -1,6 +1,6 @@
 Feature: Jekyll badges tag with some sample badges
 
-  Scenario: Simple badges tag with some badges defined
+  Background:
     Given I have a configuration with:
       """
       badges:
@@ -37,6 +37,8 @@ Feature: Jekyll badges tag with some sample badges
         granted: "2024-02-10"
       """
     And I have a file "index.html" with "{% render_badges %}"
+
+  Scenario: Simple badges tag with some badges defined
     When I run Jekyll
     Then I should see "<div class=\"badges\">" in "_site/index.html"
     * I should see "ungranted-badge-id" in "_site/index.html"

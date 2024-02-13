@@ -28,5 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "jekyll", ">= 3.7", "< 5.0"
 
   spec.add_development_dependency "bundler", "~> 2.4"
+  spec.add_development_dependency "cucumber", "~> 9.1"
   spec.add_development_dependency "rake", "~> 13.0"
+  spec.add_development_dependency "test-unit", "~> 3.6"
 end
